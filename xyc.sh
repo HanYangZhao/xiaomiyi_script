@@ -280,8 +280,8 @@ invokeProcedure ()
     8) clear; showSpaceUsage;;
     9) EXITACTION="reboot";;
     10) EXITACTION="nothing";;
-    11) clear; removeAutoexec; echo "";  hdr6 writeAutoexec $AASH "hdr 6 photos";;
-    12) clear; removeAutoexec; echo "";  hdr6_night writeAutoexec $AASH "hdr 6 photos night";;
+    11) clear; removeAutoexec; echo "";  hdr6; writeAutoexec $AASH "hdr 6 photos";;
+    12) clear; removeAutoexec; echo "";  hdr6_night; writeAutoexec $AASH "hdr 6 photos night";;
   esac
 }
 
