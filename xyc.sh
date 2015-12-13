@@ -285,7 +285,7 @@ invokeProcedure ()
   esac
 }
 
-hdr6{
+hdr6() {
 
   OUTFILE=${1:-$AASH}
   SCRIPT_TYPE=${2:-"hdr"}
@@ -372,7 +372,7 @@ echo "lu_util exec 'rm -f /tmp/fuse_d/DCIM/100MEDIA/*.Y' " >> $OUTFILE
 showMainMenu
 }
 
-hdr6_night{
+hdr6_night() {
     OUTFILE=${1:-$AASH}
   SCRIPT_TYPE=${2:-"hdr"}
 
