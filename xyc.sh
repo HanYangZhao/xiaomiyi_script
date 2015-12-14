@@ -254,10 +254,11 @@ showMainMenu ()
     echo " [10] $Lang12"
     echo " [11] HDR 6 photos auto-start"
     echo " [12] HDR 6 photos night auto-start"
+    echo " [13] Timelapse"
 
     read -p "$Lang13: " REPLY
     case $REPLY in
-      0|1|2|3|4|5|6|7|8|9|10|11|12) ;;
+      0|1|2|3|4|5|6|7|8|9|10|11|12|13) ;;
       *) clear; echo "$Lang14"; REPLY=-1;;
     esac
   done
@@ -280,25 +281,24 @@ invokeProcedure ()
     8) clear; showSpaceUsage;;
     9) EXITACTION="reboot";;
     10) EXITACTION="nothing";;
-    11) clear; removeAutoexec; echo "";  hdr6; writeAutoexec $AASH "hdr 6 photos";;
-    12) clear; removeAutoexec; echo "";  hdr6_night; writeAutoexec $AASH "hdr 6 photos night";;
+    11) clear; removeAutoexec; echo "";  hdr6; $AASH "hdr 6 photos";;
+    12) clear; removeAutoexec; echo "";  hdr6_night; $AASH "hdr 6 photos night";;
+    13) clear; removeAutoexec; echo "";  timelapse; writeAutoexec $AASH "timelapse";;
   esac
 }
 
+timelapse(){
+  OUTFILE=${1:-$AASH}
+  SCRIPT_TYPE=${2:-"timelapse"}
+  getSettingsInput
+  getTLScriptInput
+
+}
 hdr6() {
 
   OUTFILE=${1:-$AASH}
   SCRIPT_TYPE=${2:-"hdr"}
 
-#Script logs
-  if [ ! -f $LOGS ]; then
-    touch $LOGS
-    echo "mode2" > $LOGS
-  SWITCHMODE=`grep "mode" $LOGS`
-  elif [ -f $LOGS ]; then
-    echo "mode2" > $LOGS
-    SWITCHMODE=`grep "mode" $LOGS`
-  fi
 #End of script logs
   
 #Write any necessary script commands to autoexec.ash
@@ -369,23 +369,13 @@ echo "lu_util exec 'rm -f /tmp/fuse_d/DCIM/100MEDIA/*.BIN' " >> $OUTFILE
 echo "lu_util exec 'rm -f /tmp/fuse_d/DCIM/100MEDIA/*.bin' " >> $OUTFILE
 echo "lu_util exec 'rm -f /tmp/fuse_d/DCIM/100MEDIA/*.UV' " >> $OUTFILE
 echo "lu_util exec 'rm -f /tmp/fuse_d/DCIM/100MEDIA/*.Y' " >> $OUTFILE
-showMainMenu
+reboot yes
+
 }
 
 hdr6_night() {
     OUTFILE=${1:-$AASH}
   SCRIPT_TYPE=${2:-"hdr"}
-
-#Script logs
-  if [ ! -f $LOGS ]; then
-    touch $LOGS
-    echo "mode2" > $LOGS
-  SWITCHMODE=`grep "mode" $LOGS`
-  elif [ -f $LOGS ]; then
-    echo "mode2" > $LOGS
-    SWITCHMODE=`grep "mode" $LOGS`
-  fi
-#End of script logs
 
 echo "#Turn on, auto-capture 6 JPEG stills, long beep " >> $OUTFILE
 echo "t app test debug_dump 14" >> $OUTFILE
@@ -440,7 +430,7 @@ echo "#LONG BEEP " >> $OUTFILE
 echo "t pwm 1 enable " >> $OUTFILE
 echo "sleep 1 " >> $OUTFILE
 echo "t pwm 1 disable " >> $OUTFILE
-showMainMenu
+reboot yes
 }
 
 videoswitch()
